@@ -20,7 +20,7 @@ Este proyecto consiste en un servidor de e-commerce desarrollado con **Node.js**
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone <URL_DE_TU_REPO>
+   git clone [https://github.com/angelicaarvar/entregas-backend1]
 
 ```
 2. **Instalar dependencias:**
@@ -77,5 +77,4 @@ npm run dev
 
 [ Angélica Argañaraz Vargas- Comisión 76815 ]
 
-```
 ```
