@@ -1,6 +1,10 @@
 import express from 'express';
 import ProductManager from './managers/ProductManager.js';
 import CartManager from './managers/CartManager.js';
+import { engine } from 'express-handlebars';
+import { Server } from 'socket.io';
+import __dirname from './utils.js';
+import path from 'path';
 
 const app = express();
 const PORT = 8080;
@@ -12,8 +16,35 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-//rutas de productos
+//handlebarss
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
 
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+const httpServer = app.listen(PORT, ()=>{
+    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+})
+const io = new Server(httpServer);
+
+
+app.get('/', async (req,res)=>{
+    try {
+        const products = await productManager.getProducts();
+
+        res.render('home', { products });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener productos' });
+    }
+})
+
+app.get('/realtimeproducts', async (req,res)=>{
+
+    res.render('realTimeProducts');
+})
 
 //listado de productos
 app.get('/api/products', async (req, res) => {
@@ -152,6 +183,26 @@ app.post('/api/carts/:cid/products/:pid', async (req, res) => {
 
 //inicializa servidor
 
-app.listen(PORT, ()=>{
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+io.on('connection', async (socket)=>{
+    console.log('Cliente conectado al servidor');
+    
+    const proucts = await productManager.getProducts();
+    socket.emit('updateProducts', proucts);
+
+    socket.on('addProduct', async (newProduct) => {
+        await productManager.addProduct(newProduct);
+        const updatedProducts = await productManager.getProducts();
+
+        io.emit('updateProducts', updatedProducts);
+    })
+
+
+    socket.on('deleteProduct', async (productId) => {
+        console.log('Producto a eliminar:', productId);
+
+        await productManager.deleteProduct(productId);
+        const updatedProducts = await productManager.getProducts();
+
+        io.emit('updateProducts', updatedProducts);
+    })
+})

@@ -1,0 +1,20 @@
+<h1>Administador de productos</h1>
+
+<div>
+    <h3>Agregar nuevo producto</h3>
+    <form id="productForm">
+        <input type="text" id="title" placeholder="nombre del producto" required>
+        <input type="number" id="price" placeholder="Precio" required>
+        <input type="text" id="description" placeholder="Descripción" required>
+        <button type="submit">Agregar</button>
+    </form>
+</div>
+
+<hr>
+
+<h3>Lista actual</h3>
+<ul id="productList">
+</ul>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtime.js"></script>
