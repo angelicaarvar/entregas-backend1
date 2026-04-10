@@ -1,0 +1,71 @@
+{{!-- Estilos agregados con herramienta IA --}}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #f8f9fa; border-bottom: 2px solid #ddd;">
+    <h1 style="margin: 0;">Catálogo de Productos</h1>
+    
+    <a href="/carts/69d9551d0c5934ce6d02d869" style="background-color: #008f188f; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+        Carrito
+    </a>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px;">
+    {{#each products}}
+        <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 200px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); ">
+            <h3>{{this.title}}</h3>
+            <p>Categoría: {{this.category}}</p>
+            <h2 style="color: rgb(0, 83, 0);">${{this.price}}</h2>
+            
+            <button style="background-color: #155e26; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;" 
+                    onclick="agregarAlCarrito('{{this._id}}')">
+                Agregar al Carrito
+            </button>
+        </div>
+    {{/each}}
+</div>
+
+<div style="margin-top: 30px; margin-bottom: 50px; text-align: center;">
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}" style="padding: 10px 15px; background: #8b8b8b; color: white; text-decoration: none; border-radius: 5px;">Anterior</a>
+    {{/if}}
+
+    <span style="font-weight: bold; margin: 0 15px; font-size: 1.2rem;">Página {{page}}</span>
+
+    {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}" style="padding: 10px 15px; background: #8b8b8b; color: white; text-decoration: none; border-radius: 5px;">Siguiente</a>
+    {{/if}}
+</div>
+
+<script>
+    const CART_ID = "69d9551d0c5934ce6d02d869"; 
+
+    const agregarAlCarrito = async (productId) => {
+        try {
+            const res = await fetch(`/api/carts/${CART_ID}/products/${productId}`, {
+                method: 'POST'
+            });
+            
+            if(res.ok) {
+
+                Swal.fire({
+                    title: '¡Agregado!',
+                    text: 'El producto se sumó a tu carrito',
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000 
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo agregar el producto',
+                    icon: 'error'
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+</script>

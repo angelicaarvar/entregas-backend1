@@ -4,8 +4,11 @@
   "type": "module",
   "main": "index.js",
   "dependencies": {
+    "dotenv": "^17.4.1",
     "express": "^5.2.1",
     "express-handlebars": "^8.0.3",
+    "mongoose": "^9.4.1",
+    "mongoose-paginate-v2": "^1.9.4",
     "socket.io": "^4.8.3",
     "uuid": "^13.0.0"
   },
