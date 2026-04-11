@@ -62,7 +62,7 @@ Crear un archivo .env en la raíz del proyecto (al mismo nivel que package.json)
 ```Fragmento de código
 PORT=8080
 MONGO_URL=mongodb+srv://<tu-usuario>:<tu-contraseña>@cluster0...
-
+```
 4. **Ejecutar el servidor:**
 ```bash
 npm run dev
@@ -111,4 +111,4 @@ DELETE /:cid: Vacía por completo el carrito seleccionado.
 
 [ Angélica Argañaraz Vargas- Comisión 76815 ]
 
-```
+
