@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         //filtro de busqueda
         let filter = {};
         if (query) {
-            if (query === true || query === false) {
+            if (query === 'true' || query === 'false') {
                 filter.status = query === 'true';
             } else {
                 filter.category = query;

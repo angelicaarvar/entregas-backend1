@@ -8,7 +8,7 @@ socket.on('updateProducts', (products) => {
         const li = document.createElement('li');
         li.innerHTML = `
             <strong>${prod.title}</strong> - $${prod.price} <small>(Código: ${prod.description})</small>
-            <button class="btn-delete" data-id="${prod.id}">❌</button>
+            <button class="btn-delete" data-id="${prod._id}">❌</button>
         `;
         productList.appendChild(li);
     })
